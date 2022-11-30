@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?php
+
+if (php_sapi_name() !== 'cli') {
+    exit;
+}
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Minicli\App;
+
+$app = new App();
+
+$app->registerController('routing', new \App\Command\TruckController($app));
+
+$app->registerCommand('help', function (array $argv) use ($app) {
+    $app->getPrinter()->display("usage: minicli hello [ your-name ]");
+});
+
+$app->runCommand($argv);
